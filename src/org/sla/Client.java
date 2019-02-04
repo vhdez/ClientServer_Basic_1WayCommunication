@@ -19,7 +19,7 @@ public class Client {
             ObjectInputStream dataReader = new ObjectInputStream(socketClientSide.getInputStream());
 
             // We're connected to server!  Let's say hi.
-            // Let server know how much data is being sent
+            // Let server know how much data will be sent
             Integer dataCount = 3;
             dataWriter.writeObject(dataCount);
             dataWriter.flush();
