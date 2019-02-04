@@ -19,10 +19,17 @@ public class Client {
 
             // We're connected to server!  Let's say hi by writing to the output side of the socket.
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(communicationOut));
-            writer.write("HI FROM CLIENT #" + args[0]);
+            writer.write("HI FROM CLIENT #" + args[0] + "\n");
             writer.flush();
             System.out.println("Basic Client: SENT \"HI FROM CLIENT #" + args[0]+ "\"");
 
+            writer.write("HI AGAIN FROM CLIENT #" + args[0] + "\n");
+            writer.flush();
+            System.out.println("Basic Client: SENT \"HI AGAIN FROM CLIENT #" + args[0]+ "\"");
+
+            writer.write("WHAT'S UP FROM CLIENT #" + args[0] + "\n");
+            writer.flush();
+            System.out.println("Basic Client: SENT \"WHAT'S UP FROM CLIENT #" + args[0]+ "\"");
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Basic Client: networking failed. Exiting....");
