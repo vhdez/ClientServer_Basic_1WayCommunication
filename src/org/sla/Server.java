@@ -24,13 +24,22 @@ public class Server {
             ObjectOutputStream dataWriter = new ObjectOutputStream(socketServerSide.getOutputStream());
             ObjectInputStream dataReader = new ObjectInputStream(socketServerSide.getInputStream());
 
-            // A client has connected!  Let's find out how much data it's sending
-            int dataCount = (Integer)dataReader.readObject();
-            System.out.println("Basic Server: RECEIVING " + dataCount + " data");
-            // Read that count of data from the input side of the socket.
-            for (int i = 0; i < dataCount; i = i + 1) {
-                Object data = dataReader.readObject();
-                System.out.println("Basic Server: RECEIVE \"" + data + "\"");
+            // A client has connected!  Let's read data from it.
+            while (!Thread.interrupted()) {
+                try {
+                    // Find out how much data it's sending
+                    int dataCount = (Integer) dataReader.readObject();
+                    System.out.println("Basic Server: RECEIVING " + dataCount + " data");
+                    // Read that count of data from the input side of the socket.
+                    for (int j = 0; j < dataCount; j = j + 1) {
+                        Object data = dataReader.readObject();
+                        System.out.println("Basic Server: RECEIVE \"" + data + "\"");
+                    }
+                } catch (EOFException ex) {
+                    // EOFException happens when there is no data to read in dataReader
+                    // Just yield until there is some more data
+                    Thread.currentThread().yield();
+                }
             }
 
             // Done with communication: close sockets

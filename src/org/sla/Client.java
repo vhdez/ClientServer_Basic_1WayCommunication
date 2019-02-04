@@ -26,20 +26,36 @@ public class Client {
             System.out.println("Basic Client SENDING: " + dataCount + " data");
 
             // Write 3 messages to output side of the socket
-            String data1 = "HI FROM CLIENT #" + args[0];
-            dataWriter.writeObject(data1);
+            String data = "HI FROM CLIENT #" + args[0];
+            dataWriter.writeObject(data);
             dataWriter.flush();
-            System.out.println("Basic Client SENT: " + data1);
+            System.out.println("Basic Client SENT: " + data);
 
-            String data2 = "HI AGAIN FROM CLIENT #" + args[0];
-            dataWriter.writeObject(data2);
+            data = "Hi again!";
+            dataWriter.writeObject(data);
             dataWriter.flush();
-            System.out.println("Basic Client SENT: " + data2);
+            System.out.println("Basic Client SENT: " + data);
 
-            String data3 = "WHAT'S UP FROM CLIENT #" + args[0];
-            dataWriter.writeObject(data3);
+            data = "WHAT'S UP?";
+            dataWriter.writeObject(data);
             dataWriter.flush();
-            System.out.println("Basic Client SENT: " + data3);
+            System.out.println("Basic Client SENT: " + data);
+
+            dataCount = 2;
+            dataWriter.writeObject(dataCount);
+            dataWriter.flush();
+            System.out.println("Basic Client SENDING: " + dataCount + " data");
+
+            // Write 3 messages to output side of the socket
+            data = "You still there?";
+            dataWriter.writeObject(data);
+            dataWriter.flush();
+            System.out.println("Basic Client SENT: " + data);
+
+            data = "Great!";
+            dataWriter.writeObject(data);
+            dataWriter.flush();
+            System.out.println("Basic Client SENT: " + data);
 
             // Done with communication: close sockets
             System.out.println("Basic Client: closing sockets");
