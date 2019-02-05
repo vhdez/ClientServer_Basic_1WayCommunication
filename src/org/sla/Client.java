@@ -1,7 +1,9 @@
 package org.sla;
 
-import java.io.*;
-import java.net.*;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.net.Socket;
+import java.net.ConnectException;
 
 public class Client {
 
@@ -26,7 +28,7 @@ public class Client {
             System.out.println("Basic Client SENDING: " + dataCount + " data");
 
             // Write 3 messages to output side of the socket
-            String data = "HI FROM CLIENT #" + args[0];
+            String data = "HI FROM CLIENT";
             dataWriter.writeObject(data);
             dataWriter.flush();
             System.out.println("Basic Client SENT: " + data);
@@ -63,6 +65,8 @@ public class Client {
             dataWriter.close();
             socketClientSide.close();
 
+        } catch (ConnectException ex) {
+            System.out.println("Basic Client: ERROR There's no Server running yet at IP address 127.0.0.1 (the same computer) on port 5000");
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Basic Client: networking failed. Exiting....");

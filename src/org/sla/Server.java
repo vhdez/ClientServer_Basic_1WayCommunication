@@ -1,7 +1,10 @@
 package org.sla;
 
-import java.io.*;
-import java.net.*;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.EOFException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
 
