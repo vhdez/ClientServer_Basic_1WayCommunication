@@ -29,19 +29,32 @@ public class Server {
 
             // A client has connected!  Let's read data from it.
             while (!Thread.interrupted()) {
-                try {
-                    // Find out how much data it's sending
-                    int dataCount = (Integer) dataReader.readObject();
-                    System.out.println("Basic Server: RECEIVING " + dataCount + " data");
-                    // Read that count of data from the input side of the socket.
-                    for (int j = 0; j < dataCount; j = j + 1) {
-                        Object data = dataReader.readObject();
-                        System.out.println("Basic Server: RECEIVE \"" + data + "\"");
+                // Find out how much data client is sending
+                int dataCount = -1;
+                while (dataCount == -1) {
+                    // Server may NOT have written dataCount yet; so we have to keep reading until it appears
+                    try {
+                        dataCount = (Integer) dataReader.readObject();
+                    } catch (EOFException ex) {
+                        // EOFException means dataCount has NOT been written yet; so yield and try reading again
+                        Thread.currentThread().yield();
                     }
-                } catch (EOFException ex) {
-                    // EOFException happens when there is no data to read in dataReader
-                    // Just yield until there is some more data
-                    Thread.currentThread().yield();
+                }
+                System.out.println("Basic Server: RECEIVING " + dataCount + " data");
+
+                // Read that count of data from the input side of the socket.
+                for (int j = 0; j < dataCount; j = j + 1) {
+                    // Server may NOT have written data yet; so we have to keep reading until it appears
+                    Object data = null;
+                    while (data == null) {
+                        try {
+                            data = dataReader.readObject();
+                        } catch (EOFException ex) {
+                            // EOFException means data has NOT been written yet; so yield and try reading again
+                            Thread.currentThread().yield();
+                        }
+                    }
+                    System.out.println("Basic Server: RECEIVE \"" + data + "\"");
                 }
             }
 
